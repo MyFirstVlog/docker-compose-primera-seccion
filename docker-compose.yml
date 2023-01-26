@@ -2,7 +2,7 @@ version: '3'
 
 services:
   db:
-    container_name: pokemon_db
+    container_name: ${MONGO_DB_NAME}
     image: mongo:6.0
     volumes:
       - poke-vol:/data/db 
@@ -10,8 +10,8 @@ services:
       - 27017:27017
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: alejo
-      MONGO_INITDB_ROOT_PASSWORD: 123456
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
     command: ['--auth'] #Para ejecutar comandos normales de mongo una vez se esten montando los contenedores
 
 volumes: # esta hace que usemos el volumen auo generado nombre-proyecto_nombre-volumen
