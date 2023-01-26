@@ -6,15 +6,29 @@ services:
     image: mongo:6.0
     volumes:
       - poke-vol:/data/db 
-    ports:
-      - 27017:27017
+    # ports: Basicamente se comentan porque no es necesario exponer puertos sabeindo que el unico que lo utilizara sera mongo-express
+    #   - 27017:27017
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
     command: ['--auth'] #Para ejecutar comandos normales de mongo una vez se esten montando los contenedores
 
+  mongo-express:
+    depends_on:
+      - db
+    image: mongo-express:1.0.0-alpha.4
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
+      ME_CONFIG_MONGODB_SERVER: ${MONGO_DB_NAME} #Nomnbre del contenedort de la base de datos
+    ports:
+      - 8081:8081
+    restart: always
+
 volumes: # esta hace que usemos el volumen auo generado nombre-proyecto_nombre-volumen
   poke-vol:
     external: false
 
+
+#Adicionalmente uya no toca crear la red manual, ya el compose la crea con tal de que los servicios se puedan cocnectar
