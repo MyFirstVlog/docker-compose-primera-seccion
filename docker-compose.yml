@@ -9,9 +9,12 @@ services:
     ports:
       - 27017:27017
     restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: alejo
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+    command: ['--auth'] #Para ejecutar comandos normales de mongo una vez se esten montando los contenedores
 
-
-volumes:
+volumes: # esta hace que usemos el volumen auo generado nombre-proyecto_nombre-volumen
   poke-vol:
     external: false
 
