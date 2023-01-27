@@ -26,6 +26,19 @@ services:
       - 8081:8081
     restart: always
 
+  poke-app:
+    depends_on:
+      - db
+      - mongo-express
+    image: klerith/pokemon-nest-app:1.0.0
+    ports:
+      - 3000:3000
+    environment:
+      MONGODB: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_DB_NAME}:27017  #No se pone local host porque la app debe conectarse en la red interna y de ahi con  la base de datos
+      DB_NAME: poke_db
+    restart: always
+    
+
 volumes: # esta hace que usemos el volumen auo generado nombre-proyecto_nombre-volumen
   poke-vol:
     external: false
